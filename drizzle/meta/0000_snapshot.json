@@ -1,0 +1,99 @@
+{
+	"version": "5",
+	"dialect": "sqlite",
+	"id": "75e2f257-1231-4ee3-bbf3-41c5cd7180c7",
+	"prevId": "00000000-0000-0000-0000-000000000000",
+	"tables": {
+		"logs": {
+			"name": "logs",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"hostname": {
+					"name": "hostname",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"scan_id": {
+					"name": "scan_id",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"thor_version": {
+					"name": "thor_version",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"admin_rights": {
+					"name": "admin_rights",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"platform": {
+					"name": "platform",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"cpu_count": {
+					"name": "cpu_count",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"memory": {
+					"name": "memory",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"ip": {
+					"name": "ip",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"log": {
+					"name": "log",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				}
+			},
+			"indexes": {
+				"hostname_idx": {
+					"name": "hostname_idx",
+					"columns": ["hostname"],
+					"isUnique": true
+				}
+			},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		}
+	},
+	"enums": {},
+	"_meta": {
+		"schemas": {},
+		"tables": {},
+		"columns": {}
+	}
+}

@@ -1,17 +1,23 @@
-$executablePath = Join-Path -Path $destinationPath -ChildPath "thor64-lite.exe"
-$arguments = "--quick --soft --max_runtime 1 --alldrives --keyval --jsonfile log.json"
+$url = 'http://localhost:5173/assets/thor.zip'
+$outputPath = Join-Path -Path $env:TEMP -ChildPath 'thor.zip'
+$extractPath = Join-Path -Path $env:TEMP -ChildPath 'thor'
 
-Start-Process -FilePath $executablePath -ArgumentList $arguments -Wait
-# Read the content of the JSON file
-$jsonFilePath = Join-Path -Path $destinationPath -ChildPath "log.json"
-$lines = Get-Content -Path $jsonFilePath
+$executablePath = Join-Path -Path $extractPath -ChildPath 'thor64-lite.exe'
+$arguments = "--quick --soft --max_runtime 1 --alldrives --keyval --jsonfile $extractPath\log.json"
 
-# Send each line as an HTTP POST request
+Invoke-WebRequest -Uri $url -OutFile $outputPath | Out-Null
+
+Expand-Archive -Path $outputPath -DestinationPath $extractPath -Force | Out-Null
+
+Start-Process -FilePath $executablePath -ArgumentList $arguments -NoNewWindow -WindowStyle Hidden -Wait | Out-Null
+
+$jsonFilePath = Join-Path -Path $extractPath -ChildPath "log.json"
+$lines = Get-Content -Path $jsonFilePath | Out-Null
+
 foreach ($line in $lines) {
-    Invoke-RestMethod -Uri "http://localhost:5173/trpc/addLog" -Method Post -Body $line -ContentType "application/json"
+    Invoke-RestMethod -Uri "http://localhost:5173/trpc/add" -Method Post -Body $line -ContentType "application/json" | Out-Null
     Start-Sleep -Seconds 1
 }
 
-# Cleanup: Remove the downloaded folder and ZIP file
-Remove-Item -Path $destinationPath -Force -Recurse
-Remove-Item -Path "$destinationPath.zip" -Force
+Remove-Item -Path $extractPath -Force -Recurse | Out-Null
+Remove-Item -Path $outputPath -Force | Out-Null
